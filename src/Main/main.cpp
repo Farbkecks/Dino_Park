@@ -1,11 +1,12 @@
 #include <iostream>
 #include "Herbivore.h"
 
-using namespace std;
 
 int main() {
+    using namespace std;
 
-    Herbivore a(7, "Test");
+
+    Herbivore a(17, "Test");
     cout << a << endl;
 
     return 0;

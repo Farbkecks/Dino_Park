@@ -10,7 +10,9 @@ public:
     std::string getName() const;
 protected:
     Dino(int id, std::string name);
-//private:
+    std::string getIdString() const;
+    virtual std::string toText() const = 0;
+private:
     int id;
     std::string name;
     friend std::ostream &operator<<(std::ostream &strm, const Dino &a);

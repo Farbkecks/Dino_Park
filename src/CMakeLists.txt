@@ -1,3 +1,3 @@
 add_subdirectory(Main)
-add_subdirectory(Map)
-add_subdirectory(Dino)
+add_subdirectory(libMap)
+add_subdirectory(libDino)

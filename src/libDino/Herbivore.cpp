@@ -1,9 +1,11 @@
 #include "Herbivore.h"
+#include <iostream>
 
 Herbivore::Herbivore(int id, std::string name) : Dino(id, name) {
 
 }
 
-std::ostream &operator<<(std::ostream &strm, const Herbivore &a) {
-    return strm << a.id;
+std::string Herbivore::toText() const {
+    return "H" + getIdString();
 }
+
