@@ -5,9 +5,9 @@
 int main() {
     using namespace std;
 
-    Map map(20);
+    Map map(20, 5,20);
 
-    map.get(3,4);
+    cout << map << endl;
 
 
     return 0;

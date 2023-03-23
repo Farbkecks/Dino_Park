@@ -20,7 +20,6 @@ Dino::Dino(int id, std::string name)
 
 std::string Dino::getIdString() const {
     string resulte{};
-    if(this->id < 100) resulte +="0";
     if(this->id < 10) resulte +="0";
     resulte += std::to_string(this->id);
     return resulte;

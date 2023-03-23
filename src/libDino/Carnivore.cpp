@@ -6,7 +6,7 @@ Carnivore::Carnivore(int id, std::string name)
 }
 
 std::string Carnivore::toText() const {
-    return "C" + getIdString();
+    return "C:" + name.substr(0,1) + getIdString();
 }
 
 MapObjectType Carnivore::getType() const{

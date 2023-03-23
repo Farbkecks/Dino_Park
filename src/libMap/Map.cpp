@@ -1,42 +1,88 @@
 #include "Map.h"
-#include "iostream"
-#include <algorithm>
+#include "DinoNames.h"
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
-Map::Map(int scale)
-: map(scale)
+Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
+: map(scale), scale(scale)
 {
+    srand(time(NULL));
     for(auto& inner : map)
     {
         inner.resize(scale);
     }
-
-    setObject(1,3, make_unique<Carnivore>(3,"myCarnivore"));
-
-    auto ptr = get(1,3);
-
-    if(ptr != nullptr)
-            cout << *ptr << endl;
-    else
-        cout << "is null pointer" << endl;
-
-#if 0
-    for_each(begin(map), end(map),
-             [&scale](vector<datatype> & inner)
-             {
-                inner.resize(scale);
-             });
-#endif
+    addTypeBulk(CARNIVORE, countCarnivore);
+    addTypeBulk(HERBIVORE, countHerbivore);
 }
 
 void Map::setObject(const int x, const int y, shared_ptr<MapObject> obj) {
+//    if(map[x][y] != nullptr) throw 1;
     map[x][y] = std::move(obj);
 }
 
-std::shared_ptr<MapObject> Map::get(const int x, const int y) const
-{
+std::shared_ptr<MapObject> Map::getCoordninates(const int x, const int y) const {
     return map[x][y];
 }
 
+
+
+void Map::addTypeBulk(const MapObjectType &type, const int count) {
+    for(int i = 0 ; i<count; i++){
+        int x = randrom0To20();
+        int y = randrom0To20();
+        addType(x,y,type, i);
+//        while (true){
+//            x = randrom0To20();
+//            y = randrom0To20();
+//            try{
+//                addType(x,y,type, i);
+//            } catch (int e){
+//                continue;
+//            }
+//            break;
+//        }
+    }
+}
+
+void Map::addType(const int x, const int y, const MapObjectType &type, const int id) {
+    switch (type) {
+        case CARNIVORE:
+            setObject(x,y, make_unique<Carnivore>(id, namesCarnivore[id])); break;
+        case HERBIVORE:
+            setObject(x,y, make_unique<Herbivore>(id, namesHerbivore[id])); break;
+        default:
+            throw 2;
+    }
+}
+
+int Map::randrom0To20() const {
+    return rand() % 20;
+}
+
+std::ostream &operator<<(std::ostream &strm, const Map &a){
+    return strm << a.toText();
+}
+
+std::string Map::toText() const {
+    string resulte{};
+    for(int i=0; i<scale;i++)
+        resulte += "-----";
+    resulte += "--\n";
+    for(auto row: map){
+        resulte += "|";
+        for(auto cell: row){
+            if(cell == nullptr)
+                resulte += "     ";
+            else
+                resulte += cell->toText();
+        }
+        resulte += "|\n";
+    }
+    for(int i=0; i<scale;i++)
+        resulte += "-----";
+    resulte += "--\n";
+    return resulte;
+}
 

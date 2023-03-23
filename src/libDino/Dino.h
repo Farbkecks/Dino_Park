@@ -16,9 +16,9 @@ protected:
     std::string getIdString() const;
     virtual std::string toText() const = 0;
     bool hasMoved;
-private:
     int id;
     std::string name;
+private:
     friend std::ostream &operator<<(std::ostream &strm, const MapObject &a);
 };
 

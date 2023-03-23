@@ -6,7 +6,7 @@ Herbivore::Herbivore(int id, std::string name) : Dino(id, name) {
 }
 
 std::string Herbivore::toText() const {
-    return "H" + getIdString();
+    return "H:" + name.substr(0,1) + getIdString();
 }
 
 MapObjectType Herbivore::getType() const{
