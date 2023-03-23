@@ -7,5 +7,4 @@ std::ostream &operator<<(std::ostream &strm, const MapObjectType &a){
         case HERBIVORE: return strm << "HERBIVORE"; break;
         case CARNIVORE: return strm << "CARNIVORE"; break;
     }
-    strm << "Test";
 }

@@ -10,10 +10,7 @@ int Dino::getId() const{
     return this->id;
 }
 
-std::ostream &operator<<(std::ostream &strm, const Dino &a)
-{
-    return strm << a.toText();
-}
+
 
 Dino::Dino(int id, std::string name)
 :id(id), name(name)
@@ -33,10 +30,13 @@ void Dino::hasMovedReset() {
     hasMoved = false;
 }
 
-bool Dino::canMove() {
+bool Dino::canMove()const {
     if(!hasMoved){
-        hasMoved = true;
         return true;
     }
     return false;
+}
+
+void Dino::hasMovedLock() {
+    hasMoved = true;
 }
