@@ -2,8 +2,9 @@
 
 #include "MapObjectType.h"
 #include <string>
+#include <memory>
 
-
+#include <memory>
 class MapObject{
 public:
     virtual MapObjectType getType() const= 0;
