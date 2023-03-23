@@ -1,9 +1,9 @@
-
 #pragma once
 
 #include <string>
+#include "MapObject.h"
 
-class Dino {
+class Dino : public MapObject{
 public:
     Dino() = delete;
     int getId() const;

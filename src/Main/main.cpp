@@ -1,12 +1,13 @@
 #include <iostream>
 #include "Herbivore.h"
+#include "Carnivore.h"
 
 
 int main() {
     using namespace std;
 
 
-    Herbivore a(17, "Test");
+    Carnivore a(17, "Test");
     cout << a << endl;
 
     return 0;
