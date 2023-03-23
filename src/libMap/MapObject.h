@@ -1,6 +1,9 @@
 #pragma once
 
 #include "MapObjectType.h"
+#include "Herbivore.h"
+#include "Carnivore.h"
+#include "Fence.h"
 #include <string>
 #include <memory>
 

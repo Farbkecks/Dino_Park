@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <windows.h>
+
 
 using namespace std;
 
@@ -73,7 +75,7 @@ std::ostream &operator<<(std::ostream &strm, const Map &a){
             if(cell == nullptr)
                 strm << "     ";
             else
-                strm << cell->toText();
+                strm << *cell;
         }
         strm << "|\n";
     }
