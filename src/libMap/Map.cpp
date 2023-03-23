@@ -2,6 +2,7 @@
 #include "DinoNames.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 using namespace std;
 
@@ -13,12 +14,17 @@ Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
     {
         inner.resize(scale);
     }
+
+    int countFence = scale * scale * 0.1;
+    addTypeBulk(FENCE, countFence);
     addTypeBulk(CARNIVORE, countCarnivore);
     addTypeBulk(HERBIVORE, countHerbivore);
 }
 
 void Map::setObject(const int x, const int y, shared_ptr<MapObject> obj) {
-//    if(map[x][y] != nullptr) throw 1;
+    if(map[x][y] != nullptr){
+        throw 1;
+    }
     map[x][y] = std::move(obj);
 }
 
@@ -26,23 +32,19 @@ std::shared_ptr<MapObject> Map::getCoordninates(const int x, const int y) const 
     return map[x][y];
 }
 
-
-
 void Map::addTypeBulk(const MapObjectType &type, const int count) {
     for(int i = 0 ; i<count; i++){
-        int x = randrom0To20();
-        int y = randrom0To20();
-        addType(x,y,type, i);
-//        while (true){
-//            x = randrom0To20();
-//            y = randrom0To20();
-//            try{
-//                addType(x,y,type, i);
-//            } catch (int e){
-//                continue;
-//            }
-//            break;
-//        }
+        int x,y;
+        while (true){
+            x = randrom0To20();
+            y = randrom0To20();
+            try{
+                addType(x,y,type, i);
+            } catch (int e){
+                continue;
+            }
+            break;
+        }
     }
 }
 
@@ -52,8 +54,8 @@ void Map::addType(const int x, const int y, const MapObjectType &type, const int
             setObject(x,y, make_unique<Carnivore>(id, namesCarnivore[id])); break;
         case HERBIVORE:
             setObject(x,y, make_unique<Herbivore>(id, namesHerbivore[id])); break;
-        default:
-            throw 2;
+        case FENCE:
+            setObject(x,y, make_unique<Fence>()); break;
     }
 }
 
