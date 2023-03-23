@@ -64,27 +64,24 @@ int Map::randrom0To20() const {
 }
 
 std::ostream &operator<<(std::ostream &strm, const Map &a){
-    return strm << a.toText();
-}
-
-std::string Map::toText() const {
-    string resulte{};
-    for(int i=0; i<scale;i++)
-        resulte += "-----";
-    resulte += "--\n";
-    for(auto row: map){
-        resulte += "|";
+    for(int i=0; i<a.scale;i++)
+        strm << "-----";
+    strm << "--\n";
+    for(auto row: a.map){
+        strm << "|";
         for(auto cell: row){
             if(cell == nullptr)
-                resulte += "     ";
+                strm << "     ";
             else
-                resulte += cell->toText();
+                strm << cell->toText();
         }
-        resulte += "|\n";
+        strm << "|\n";
     }
-    for(int i=0; i<scale;i++)
-        resulte += "-----";
-    resulte += "--\n";
-    return resulte;
+    for(int i=0; i<a.scale;i++)
+        strm << "-----";
+    strm << "--\n";
+
+    return strm;
 }
+
 

@@ -18,9 +18,9 @@ private:
 
     typedef std::shared_ptr<MapObject> datatype;
     std::vector<std::vector<datatype>> map;
+
     void addTypeBulk(const MapObjectType & type, const int count);
     void addType(const int x, const int y, const MapObjectType & type, const int id);
     int randrom0To20() const;
-    std::string toText() const;
 };
 std::ostream &operator<<(std::ostream &strm, const Map &a);
