@@ -18,6 +18,7 @@ std::ostream &operator<<(std::ostream &strm, const Dino &a)
 Dino::Dino(int id, std::string name)
 :id(id), name(name)
 {
+    hasMovedReset();
 }
 
 std::string Dino::getIdString() const {
@@ -28,4 +29,14 @@ std::string Dino::getIdString() const {
     return resulte;
 }
 
+void Dino::hasMovedReset() {
+    hasMoved = false;
+}
 
+bool Dino::canMove() {
+    if(!hasMoved){
+        hasMoved = true;
+        return true;
+    }
+    return false;
+}

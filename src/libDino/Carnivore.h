@@ -6,9 +6,8 @@
 class Carnivore : public Dino{
 public:
     Carnivore(int id, std::string name);
-    MapObjectType getType() override;
+    MapObjectType getType()const override;
     bool isEdible() const override;
-    bool canMove() override;
 private:
     std::string toText() const override;
 };

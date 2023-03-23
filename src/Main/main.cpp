@@ -8,6 +8,11 @@ int main() {
 
 
     Carnivore a(17, "Test");
+    cout << a.getType() << endl;
+    cout << a.canMove() << endl;
+    cout << a.canMove() << endl;
+    a.hasMovedReset();
+    cout << a.canMove() << endl;
     cout << a << endl;
 
     return 0;

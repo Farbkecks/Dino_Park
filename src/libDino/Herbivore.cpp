@@ -9,3 +9,11 @@ std::string Herbivore::toText() const {
     return "H" + getIdString();
 }
 
+MapObjectType Herbivore::getType() const{
+    return HERBIVORE;
+}
+
+bool Herbivore::isEdible() const {
+    return true;
+}
+
