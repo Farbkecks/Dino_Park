@@ -94,6 +94,7 @@ MapObjectType Map::checkCoordinates(const int x, const int y) const {
 bool Map::hasHerbivore() const {
     for(auto const & row: map){
         for(auto const & cell: row){
+            if(cell == nullptr) continue;
             if(cell->getType() == HERBIVORE) return true;
         }
     }
