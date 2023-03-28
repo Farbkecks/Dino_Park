@@ -138,9 +138,12 @@ void Map::moving() {
 }
 
 void Map::move(const int x, const int y) {
+    int random = rand() % 8;
+    int count = 0;
     for(int l=-1; l<2;l++){
         for(int k=-1; k<2;k++){
             if(l==0 && k==0) continue;
+            if(count++ != random) continue;
             int newX = x+l;
             int newY = y+k;
             if(newX < 0 || newX > 19) continue;
