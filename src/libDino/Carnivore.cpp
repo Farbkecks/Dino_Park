@@ -17,4 +17,9 @@ bool Carnivore::isEdible() const {
     return false;
 }
 
+bool Carnivore::attemptEat() {
+    if((rand() % 3) == 0) return true;
+    return false;
+}
+
 

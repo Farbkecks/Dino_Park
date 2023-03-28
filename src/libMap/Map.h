@@ -14,6 +14,9 @@ public:
     MapObjectType checkCoordinates(const int x, const int y) const;
     MapObjectType checkCoordinates() const;
     bool hasHerbivore() const;
+    void eating();
+    void moving();
+
 private:
     const int scale;
     friend std::ostream &operator<<(std::ostream &strm, const Map &a);
@@ -24,5 +27,7 @@ private:
     void addTypeBulk(const MapObjectType & type, const int count);
     void addType(const int x, const int y, const MapObjectType & type, const int id);
     int randrom0To20() const;
+    void eat(const int x, const int y);
+    void move(const int x, const int y);
 };
 std::ostream &operator<<(std::ostream &strm, const Map &a);

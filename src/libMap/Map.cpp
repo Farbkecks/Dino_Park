@@ -11,7 +11,6 @@ using namespace std;
 Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
 : map(scale), scale(scale)
 {
-    srand(time(NULL));
     for(auto& inner : map)
     {
         inner.resize(scale);
@@ -100,6 +99,60 @@ bool Map::hasHerbivore() const {
     }
     return false;
 }
+
+void Map::eating() {
+    for(int i=0; i<scale;i++){
+        for(int y=0; y<scale; y++){
+            if(map[i][y] == nullptr) continue;
+            if(map[i][y]->getType() != CARNIVORE) continue;
+            if(!Carnivore::attemptEat()) continue;
+            eat(i,y);
+        }
+    }
+}
+
+void Map::eat(const int x, const int y) {
+    for(int l=-1; l<2;l++){
+        for(int k=-1; k<2;k++){
+            if(l==0 && k==0) continue;
+            int newX = x+l;
+            int newY = y+k;
+            if(newX < 0 || newX > 19) continue;
+            if(newY < 0 || newY > 19) continue;
+            if(map[newX][newY] == nullptr) continue;
+            if(map[newX][newY]->getType() != HERBIVORE) continue;
+            map[newX][newY] = nullptr;
+            return;
+        }
+    }
+}
+
+void Map::moving() {
+    for(int i=0; i<scale;i++){
+        for(int y=0; y<scale; y++){
+            if(map[i][y] == nullptr) continue;
+            if(!map[i][y]->canMove()) continue;
+            move(i,y);
+        }
+    }
+}
+
+void Map::move(const int x, const int y) {
+    for(int l=-1; l<2;l++){
+        for(int k=-1; k<2;k++){
+            if(l==0 && k==0) continue;
+            int newX = x+l;
+            int newY = y+k;
+            if(newX < 0 || newX > 19) continue;
+            if(newY < 0 || newY > 19) continue;
+            if(map[newX][newY] != nullptr) continue;
+            map[newX][newY] = std::move(map[x][y]);
+            return;
+        }
+    }
+}
+
+
 
 
 
