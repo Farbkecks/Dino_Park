@@ -1,12 +1,17 @@
 #include <iostream>
 #include "Map.h"
 
-int main() {
-    using namespace std;
-    Map map(20, 5,20);
-    cout << map << endl;
+using namespace std;
 
-
-    return 0;
+int gameloop(Map map){
+    int days = 0;
+    while(map.hasHerbivore()){
+        cout << map << endl;
+    }
 }
 
+int main() {
+    Map map(20, 5,20);
+    gameloop(map);
+    return 0;
+}

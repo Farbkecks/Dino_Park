@@ -11,7 +11,9 @@ public:
     Map(const int scale, const int countCarnivore, const int countHerbivore);
     void setObject(const int x, const int y, std::shared_ptr<MapObject> obj);
     std::shared_ptr<MapObject> getCoordninates(const int x, const int y) const;
-//    MapObjectType checkCoordinates(const int x, const int y) const;
+    MapObjectType checkCoordinates(const int x, const int y) const;
+    MapObjectType checkCoordinates() const;
+    bool hasHerbivore() const;
 private:
     const int scale;
     friend std::ostream &operator<<(std::ostream &strm, const Map &a);

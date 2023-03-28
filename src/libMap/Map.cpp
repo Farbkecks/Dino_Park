@@ -86,4 +86,19 @@ std::ostream &operator<<(std::ostream &strm, const Map &a){
     return strm;
 }
 
+MapObjectType Map::checkCoordinates(const int x, const int y) const {
+    if(map[x][y] == nullptr) return EMPTY;
+    return map[x][y]->getType();
+}
+
+bool Map::hasHerbivore() const {
+    for(auto const & row: map){
+        for(auto const & cell: row){
+            if(cell->getType() == HERBIVORE) return true;
+        }
+    }
+    return false;
+}
+
+
 
