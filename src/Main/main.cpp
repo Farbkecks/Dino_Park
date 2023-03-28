@@ -12,6 +12,7 @@ int gameloop(Map & map){
         cout << map << endl;
         map.eating();
         map.moving();
+        map.moveReset();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     cout << map << endl;

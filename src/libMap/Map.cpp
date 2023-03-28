@@ -147,7 +147,17 @@ void Map::move(const int x, const int y) {
             if(newY < 0 || newY > 19) continue;
             if(map[newX][newY] != nullptr) continue;
             map[newX][newY] = std::move(map[x][y]);
+            map[newX][newY]->hasMovedLock();
             return;
+        }
+    }
+}
+
+void Map::moveReset() {
+    for(auto const & row: map){
+        for(auto const & cell: row){
+            if(cell == nullptr) continue;
+            cell->hasMovedReset();
         }
     }
 }

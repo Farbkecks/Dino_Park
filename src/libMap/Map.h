@@ -17,6 +17,8 @@ public:
     void eating();
     void moving();
 
+    void moveReset();
+
 private:
     const int scale;
     friend std::ostream &operator<<(std::ostream &strm, const Map &a);
