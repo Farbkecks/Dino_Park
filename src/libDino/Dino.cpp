@@ -1,5 +1,7 @@
 #include "Dino.h"
 
+#include <utility>
+
 using namespace std;
 
 std::string Dino::getName() const{
@@ -13,9 +15,8 @@ int Dino::getId() const{
 
 
 Dino::Dino(int id, std::string name)
-:id(id), name(name)
+:id(id), name(std::move(name)), hasMoved(false)
 {
-    hasMovedReset();
 }
 
 std::string Dino::getIdString() const {

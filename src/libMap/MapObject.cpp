@@ -1,6 +1,5 @@
 #include "MapObject.h"
 
-
 const static HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 std::ostream &operator<<(std::ostream &strm, const MapObject &a)

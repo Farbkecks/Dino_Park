@@ -1,7 +1,9 @@
 #include "Carnivore.h"
 
+#include <utility>
+
 Carnivore::Carnivore(int id, std::string name)
-: Dino(id, name)
+: Dino(id, std::move(name))
 {
 }
 

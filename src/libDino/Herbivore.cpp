@@ -1,7 +1,8 @@
 #include "Herbivore.h"
 #include <iostream>
+#include <utility>
 
-Herbivore::Herbivore(int id, std::string name) : Dino(id, name) {
+Herbivore::Herbivore(int id, std::string name) : Dino(id, std::move(name)) {
 
 }
 

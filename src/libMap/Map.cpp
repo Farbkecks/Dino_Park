@@ -1,9 +1,7 @@
 #include "Map.h"
 #include "DinoNames.h"
 #include <cstdlib>
-#include <ctime>
 #include <iostream>
-#include <windows.h>
 
 
 using namespace std;
@@ -16,7 +14,7 @@ Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
         inner.resize(scale);
     }
 
-    int countFence = scale * scale * 0.1;
+    int countFence = (int) (scale * scale * 0.1);
     addTypeBulk(FENCE, countFence);
     addTypeBulk(CARNIVORE, countCarnivore);
     addTypeBulk(HERBIVORE, countHerbivore);
@@ -24,7 +22,7 @@ Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
 
 void Map::setObject(const int x, const int y, shared_ptr<MapObject> obj) {
     if(map[x][y] != nullptr){
-        throw 1;
+        throw std::invalid_argument("place is not empty");
     }
     map[x][y] = std::move(obj);
 }
@@ -37,11 +35,11 @@ void Map::addTypeBulk(const MapObjectType &type, const int count) {
     for(int i = 0 ; i<count; i++){
         int x,y;
         while (true){
-            x = randrom0To20();
-            y = randrom0To20();
+            x = Map::random0To20();
+            y = Map::random0To20();
             try{
                 addType(x,y,type, i);
-            } catch (int e){
+            } catch (std::invalid_argument const & e){
                 continue;
             }
             break;
@@ -57,10 +55,11 @@ void Map::addType(const int x, const int y, const MapObjectType &type, const int
             setObject(x,y, make_unique<Herbivore>(id, namesHerbivore[id])); break;
         case FENCE:
             setObject(x,y, make_unique<Fence>()); break;
+        default: throw std::invalid_argument("cant add type");
     }
 }
 
-int Map::randrom0To20() const {
+int Map::random0To20(){
     return rand() % 20;
 }
 
@@ -68,9 +67,9 @@ std::ostream &operator<<(std::ostream &strm, const Map &a){
     for(int i=0; i<a.scale;i++)
         strm << "-----";
     strm << "--\n";
-    for(auto row: a.map){
+    for(auto const & row: a.map){
         strm << "|";
-        for(auto cell: row){
+        for(auto const &  cell: row){
             if(cell == nullptr)
                 strm << "     ";
             else
