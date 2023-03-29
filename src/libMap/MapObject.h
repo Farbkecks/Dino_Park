@@ -14,7 +14,6 @@ public:
     virtual bool canMove() const = 0;
     virtual void hasMovedReset() = 0;
     virtual void hasMovedLock() = 0;
-private:
 };
 
 std::ostream &operator<<(std::ostream &strm, const MapObject &a);

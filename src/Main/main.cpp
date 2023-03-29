@@ -7,12 +7,11 @@ using namespace std;
 
 int gameloop(Map & map){
     int days = 0;
-    while(map.hasHerbivore()){
+    while(map.countType(HERBIVORE)){
         days++;
         cout << map << endl;
-        map.eating();
-        map.moving();
-        map.moveReset();
+        map.eatAll();
+        map.moveAll();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     cout << map << endl;
@@ -21,6 +20,7 @@ int gameloop(Map & map){
 
 int main() {
     srand(time(nullptr));
+
     Map map(20, 5,20);
     gameloop(map);
     return 0;
