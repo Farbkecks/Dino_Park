@@ -22,24 +22,17 @@ Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
     addTypeBulk(HERBIVORE, countHerbivore);
 }
 
-void Map::setObject(const int x, const int y, shared_ptr<MapObject> const obj) {
-    if(map[x][y] != nullptr){
-        throw std::invalid_argument("place is not empty");
-    }
-    map[x][y] = obj;
-}
-
 Map::datatype Map::getCoordninates(const int x, const int y) const {
     return map[x][y];
 }
 
-Map::datatype Map::getCoordninates(const Coordinate coord) const {
+Map::datatype Map::getCoordninates(const Coordinate & coord) const {
     return getCoordninates(coord.x, coord.y);
 }
 
-void Map::setCoordninates(Coordinate const coord, Map::datatype obj)
+void Map::setCoordninates(Coordinate const & coord, Map::datatype const & obj)
 {
-    map.at(coord.x).at(coord.y) = obj;
+    map.at(coord.x).at(coord.y) = std::move(obj);
 }
 
 void Map::addTypeBulk(const MapObjectType &type, const int count) {
@@ -50,7 +43,7 @@ void Map::addTypeBulk(const MapObjectType &type, const int count) {
             y = Map::random0To20();
         } while(getCoordninates(x,y) != nullptr);
 
-        setObject(x,y, Map::makeTypeInstance(type, i));
+        setCoordninates(Coordinate(x,y), Map::makeTypeInstance(type, i));
     }
 }
 
@@ -102,7 +95,12 @@ MapObjectType Map::checkCoordinates(const int x, const int y) const {
     return map[x][y]->getType();
 }
 
-unsigned int Map::countType(const MapObjectType type) const {
+MapObjectType Map::checkCoordinates(const Coordinate &coord) const {
+    return checkCoordinates(coord.x, coord.y);
+}
+
+
+unsigned int Map::countType(const MapObjectType & type) const {
     int count = 0;
 
     for(auto const & row: map){
@@ -114,7 +112,6 @@ unsigned int Map::countType(const MapObjectType type) const {
     }
     return count;
 }
-
 
 void Map::eatAll() {
     walk([&](int x, int y){eat(x,y);});

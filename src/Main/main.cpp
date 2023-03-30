@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int gameloop(Map & map){
+void gameloop(Map & map){
     int days = 0;
     while(map.countType(HERBIVORE)){
         days++;

@@ -20,35 +20,38 @@ private:
     typedef std::shared_ptr<MapObject> datatype;
 
 public:
-    Map(const int scale, const int countCarnivore, const int countHerbivore);
+    Map(int scale, int countCarnivore,int countHerbivore);
 
-    unsigned int countType(const MapObjectType type) const;
+    unsigned int countType(const MapObjectType & type) const;
 
     void eatAll();
 
     void moveAll();
 
 private:
+    //variables
+    const int scale;
 
-    void setCoordninates(const Coordinate coord, datatype const obj);
-    void setObject(const int x, const int y, datatype const obj);
+    std::vector<std::vector<datatype>> map;
 
-    datatype getCoordninates(const Coordinate coord) const;
-    datatype getCoordninates(const int x, const int y) const;
+    friend std::ostream &operator<<(std::ostream &strm, const Map &a);
 
-    MapObjectType checkCoordinates(const int x, const int y) const;
+private:
+    //funktions
+    void setCoordninates(Coordinate const & coord, datatype const & obj);
+
+    datatype getCoordninates(const Coordinate & coord) const;
+    datatype getCoordninates(int x, int y) const;
+
+    MapObjectType checkCoordinates(int x,int y) const;
+    MapObjectType checkCoordinates(const Coordinate & coord) const;
 
     bool isValidCoord(Coordinate & cord) const;
+
     std::vector<Coordinate> getNeighbors(Coordinate const & center) const;
 
     template<class T>
     void walk(T walkFunc);
-
-    const int scale;
-
-    friend std::ostream &operator<<(std::ostream &strm, const Map &a);
-
-    std::vector<std::vector<datatype>> map;
 
     void addTypeBulk(const MapObjectType &type, const int count);
 
@@ -56,8 +59,8 @@ private:
 
     static int random0To20();
 
-    void eat(const int x, const int y);
-    void move(const int x, const int y);
+    void eat(int x,int y);
+    void move(int x,int y);
 
     void moveReset();
 
