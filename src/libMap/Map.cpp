@@ -126,19 +126,19 @@ void Map::eat(const int x, const int y) {
     if(getCoordninates(x,y)->getType() != CARNIVORE) return;
     if(!Carnivore::attemptEat()) return;
 
-    for(int l=-1; l<2;l++){
-        for(int k=-1; k<2;k++){
-            if(l==0 && k==0) continue;
-            int newX = x+l;
-            int newY = y+k;
-            if(newX < 0 || newX > 19) continue;
-            if(newY < 0 || newY > 19) continue;
-            if(map[newX][newY] == nullptr) continue;
-            if(map[newX][newY]->getType() != HERBIVORE) continue;
-            map[newX][newY] = nullptr;
-            return;
-        }
-    }
+    auto const neighbors = getNeighbors(Coordinate(x,y));
+    vector<Coordinate> herbivoreNeighbors;
+
+    std::copy_if(begin(neighbors), end(neighbors), back_inserter(herbivoreNeighbors), [&](Coordinate const & coord){
+        if(getCoordninates(coord) == nullptr) return false;
+        if(getCoordninates(coord)->getType() != HERBIVORE) return false;
+        return true;
+    });
+
+    if(herbivoreNeighbors.size() == 0) return;
+
+    auto targetCoord = herbivoreNeighbors.at(rand() % herbivoreNeighbors.size());
+    setCoordninates(targetCoord, nullptr);
 }
 
 void Map::moveAll() {

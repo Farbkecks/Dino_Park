@@ -22,28 +22,27 @@ private:
 public:
     Map(const int scale, const int countCarnivore, const int countHerbivore);
 
+    unsigned int countType(const MapObjectType type) const;
+
+    void eatAll();
+
+    void moveAll();
+
+private:
+
+    void setCoordninates(const Coordinate coord, datatype const obj);
     void setObject(const int x, const int y, datatype const obj);
 
     datatype getCoordninates(const Coordinate coord) const;
     datatype getCoordninates(const int x, const int y) const;
 
-    void setCoordninates(const Coordinate coord, datatype const obj);
-
     MapObjectType checkCoordinates(const int x, const int y) const;
-
-    unsigned int countType(const MapObjectType type) const;
-
-    void eatAll();
-    void moveAll();
-
-    template<class T>
-    void walk(T walkFunc);
 
     bool isValidCoord(Coordinate & cord) const;
     std::vector<Coordinate> getNeighbors(Coordinate const & center) const;
 
-
-private:
+    template<class T>
+    void walk(T walkFunc);
 
     const int scale;
 
