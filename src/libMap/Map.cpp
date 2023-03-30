@@ -114,16 +114,16 @@ unsigned int Map::countType(const MapObjectType & type) const {
 }
 
 void Map::eatAll() {
-    walk([&](int x, int y){eat(x,y);});
+    walk([&](Coordinate coord){eat(coord);});
 }
 
-void Map::eat(const int x, const int y) {
+void Map::eat(Coordinate const & coord) {
 
-    if(getCoordninates(x,y) == nullptr) return;
-    if(getCoordninates(x,y)->getType() != CARNIVORE) return;
+    if(getCoordninates(coord) == nullptr) return;
+    if(getCoordninates(coord)->getType() != CARNIVORE) return;
     if(!Carnivore::attemptEat()) return;
 
-    auto const neighbors = getNeighbors(Coordinate(x,y));
+    auto const neighbors = getNeighbors(coord);
     vector<Coordinate> herbivoreNeighbors;
 
     std::copy_if(begin(neighbors), end(neighbors), back_inserter(herbivoreNeighbors), [&](Coordinate const & coord){
@@ -132,23 +132,23 @@ void Map::eat(const int x, const int y) {
         return true;
     });
 
-    if(herbivoreNeighbors.size() == 0) return;
+    if(herbivoreNeighbors.empty()) return;
 
     auto targetCoord = herbivoreNeighbors.at(rand() % herbivoreNeighbors.size());
     setCoordninates(targetCoord, nullptr);
 }
 
 void Map::moveAll() {
-    walk([&](int x, int y){move(x,y);});
+    walk([&](Coordinate coord){move(coord);});
 
     moveReset();
 }
 
-void Map::move(const int x, const int y) {
-    if(!getCoordninates(x,y)->canMove())
+void Map::move(Coordinate const & coord) {
+    if(!getCoordninates(coord)->canMove())
         return;
 
-    auto const neighbors = getNeighbors(Coordinate(x,y));
+    auto const neighbors = getNeighbors(coord);
 
     vector<Coordinate> emptyNeighbors;
 
@@ -157,8 +157,8 @@ void Map::move(const int x, const int y) {
     });
 
     auto targetCoord = emptyNeighbors.at(rand() % emptyNeighbors.size());
-    setCoordninates(targetCoord, getCoordninates(x,y));
-    setCoordninates(Coordinate(x,y), nullptr);
+    setCoordninates(targetCoord, getCoordninates(coord));
+    setCoordninates(coord, nullptr);
 }
 
 void Map::moveReset() {

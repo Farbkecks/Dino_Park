@@ -59,8 +59,8 @@ private:
 
     static int random0To20();
 
-    void eat(int x,int y);
-    void move(int x,int y);
+    void eat(Coordinate const & coord);
+    void move(Coordinate const & coord);
 
     void moveReset();
 
@@ -73,8 +73,8 @@ template<class T>
 void Map::walk(T walkFunc) {
     for (int x = 0; x < scale; x++) {
         for (int y = 0; y < scale; y++) {
-            if (map[x][y] == nullptr) continue;
-            walkFunc(x, y);
+            if (getCoordninates(x,y) == nullptr) continue;
+            walkFunc(Coordinate(x,y));
         }
     }
 }
