@@ -9,10 +9,10 @@
 
 struct Coordinate
 {
-    Coordinate() = default;
+    Coordinate() = delete;
     Coordinate(int x, int y)
     : x(x), y(y) {}
-    int x{}, y{0};
+    int x{}, y{};
 };
 
 class Map {
@@ -31,13 +31,12 @@ public:
 private:
     //variables
     const int scale;
-
     std::vector<std::vector<datatype>> map;
 
     friend std::ostream &operator<<(std::ostream &strm, const Map &a);
 
 private:
-    //funktions
+    //functions
     void setCoordninates(Coordinate const & coord, datatype const & obj);
 
     datatype getCoordninates(const Coordinate & coord) const;
@@ -53,9 +52,9 @@ private:
     template<class T>
     void walk(T walkFunc);
 
-    void addTypeBulk(const MapObjectType &type, const int count);
+    void addTypeBulk(const MapObjectType &type, int count);
 
-    static std::unique_ptr<MapObject> makeTypeInstance(const MapObjectType &type, const int id);
+    static datatype makeTypeInstance(const MapObjectType &type, int id);
 
     static int random0To20();
 

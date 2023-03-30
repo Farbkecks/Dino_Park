@@ -47,14 +47,14 @@ void Map::addTypeBulk(const MapObjectType &type, const int count) {
     }
 }
 
-unique_ptr<MapObject> Map::makeTypeInstance(const MapObjectType &type, const int id) {
+Map::datatype Map::makeTypeInstance(const MapObjectType &type, const int id) {
     switch (type) {
         case CARNIVORE:
-            return make_unique<Carnivore>(id, namesCarnivore[id]);
+            return make_shared<Carnivore>(id, namesCarnivore[id]);
         case HERBIVORE:
-            return make_unique<Herbivore>(id, namesHerbivore[id]);
+            return make_shared<Herbivore>(id, namesHerbivore[id]);
         case FENCE:
-            return make_unique<Fence>();
+            return make_shared<Fence>();
         default: throw std::invalid_argument("cant add type");
     }
 }
@@ -180,9 +180,7 @@ vector<Coordinate> Map::getNeighbors(Coordinate const &center) const {
     for(int dx=-1; dx < 2; dx++){
         for(int dy=-1; dy < 2; dy++){
             if(dx == 0 && dy == 0) continue;
-            Coordinate neighbor;
-            neighbor.x = center.x + dx;
-            neighbor.y = center.y + dy;
+            Coordinate neighbor(center.x + dx, center.y + dy);
 
             if(!isValidCoord(neighbor))
                 continue;
