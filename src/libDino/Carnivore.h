@@ -5,10 +5,11 @@
 
 class Carnivore : public Dino{
 public:
-    Carnivore(int id, std::string name);
+    Carnivore();
     MapObjectType getType()const override;
     bool isEdible() const override;
     static bool attemptEat();
 private:
     std::string toText() const override;
+    static int idCount;
 };

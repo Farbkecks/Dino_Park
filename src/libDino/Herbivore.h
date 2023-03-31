@@ -6,10 +6,11 @@
 
 class Herbivore: public Dino{
 public:
-    Herbivore(int id, std::string name);
+    Herbivore();
     MapObjectType getType() const override;
     bool isEdible() const override;
 
 private:
     std::string toText() const override;
+    static int idCount;
 };

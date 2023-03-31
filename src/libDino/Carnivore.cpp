@@ -1,9 +1,10 @@
 #include "Carnivore.h"
-
 #include <utility>
 
-Carnivore::Carnivore(int id, std::string name)
-: Dino(id, std::move(name))
+int Carnivore::idCount = 0;
+
+Carnivore::Carnivore()
+: Dino(idCount++, namesCarnivore[idCount])
 {
 }
 

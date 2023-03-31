@@ -1,5 +1,4 @@
 #include "Map.h"
-#include "DinoNames.h"
 #include <cstdlib>
 #include <iostream>
 #include <vector>
@@ -48,9 +47,9 @@ Map::datatype Map::makeTypeInstance(const MapObjectType &type, const int id) {
     using std::make_shared;
     switch (type) {
         case CARNIVORE:
-            return make_shared<Carnivore>(id, namesCarnivore[id]);
+            return make_shared<Carnivore>();
         case HERBIVORE:
-            return make_shared<Herbivore>(id, namesHerbivore[id]);
+            return make_shared<Herbivore>();
         case FENCE:
             return std::make_shared<Fence>();
         default: throw std::invalid_argument("cant add type");

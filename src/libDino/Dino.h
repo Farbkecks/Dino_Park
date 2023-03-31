@@ -2,6 +2,7 @@
 
 #include <string>
 #include "MapObject.h"
+#include "DinoNames.h"
 
 class Dino : public MapObject{
 public:

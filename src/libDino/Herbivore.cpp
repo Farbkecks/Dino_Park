@@ -2,7 +2,9 @@
 #include <iostream>
 #include <utility>
 
-Herbivore::Herbivore(int id, std::string name) : Dino(id, std::move(name)) {
+int Herbivore::idCount = 0;
+
+Herbivore::Herbivore() : Dino(idCount++, namesCarnivore[idCount]) {
 
 }
 
