@@ -22,6 +22,7 @@ int main() {
     srand(time(nullptr));
 
     Map map(20, 5,20);
-    gameloop(map);
+
+//    gameloop(map);
     return 0;
 }

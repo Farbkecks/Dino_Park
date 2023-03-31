@@ -5,9 +5,6 @@
 #include <vector>
 #include <algorithm>
 
-
-using namespace std;
-
 Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
 : map(scale), scale(scale)
 {
@@ -48,13 +45,14 @@ void Map::addTypeBulk(const MapObjectType &type, const int count) {
 }
 
 Map::datatype Map::makeTypeInstance(const MapObjectType &type, const int id) {
+    using std::make_shared;
     switch (type) {
         case CARNIVORE:
             return make_shared<Carnivore>(id, namesCarnivore[id]);
         case HERBIVORE:
             return make_shared<Herbivore>(id, namesHerbivore[id]);
         case FENCE:
-            return make_shared<Fence>();
+            return std::make_shared<Fence>();
         default: throw std::invalid_argument("cant add type");
     }
 }
@@ -124,9 +122,9 @@ void Map::eat(Coordinate const & coord) {
     if(!Carnivore::attemptEat()) return;
 
     auto const neighbors = getNeighbors(coord);
-    vector<Coordinate> herbivoreNeighbors;
+    std::vector<Coordinate> herbivoreNeighbors;
 
-    std::copy_if(begin(neighbors), end(neighbors), back_inserter(herbivoreNeighbors), [&](Coordinate const & coord){
+    std::copy_if(std::begin(neighbors), std::end(neighbors), back_inserter(herbivoreNeighbors), [&](Coordinate const & coord){
         if(getCoordninates(coord) == nullptr) return false;
         if(getCoordninates(coord)->getType() != HERBIVORE) return false;
         return true;
@@ -150,9 +148,9 @@ void Map::move(Coordinate const & coord) {
 
     auto const neighbors = getNeighbors(coord);
 
-    vector<Coordinate> emptyNeighbors;
+    std::vector<Coordinate> emptyNeighbors;
 
-    std::copy_if(begin(neighbors), end(neighbors), back_inserter(emptyNeighbors), [&](Coordinate const & coord){
+    std::copy_if(std::begin(neighbors), std::end(neighbors), back_inserter(emptyNeighbors), [&](Coordinate const & coord){
         return getCoordninates(coord) == nullptr;
     });
 
@@ -174,8 +172,8 @@ bool Map::isValidCoord(Coordinate &cord) const {
     return !(cord.x < 0 || cord.x >= scale || cord.y < 0 || cord.y >= scale);
 }
 
-vector<Coordinate> Map::getNeighbors(Coordinate const &center) const {
-    vector<Coordinate> out;
+std::vector<Coordinate> Map::getNeighbors(Coordinate const &center) const {
+    std::vector<Coordinate> out;
 
     for(int dx=-1; dx < 2; dx++){
         for(int dy=-1; dy < 2; dy++){
@@ -190,7 +188,33 @@ vector<Coordinate> Map::getNeighbors(Coordinate const &center) const {
     return out;
 }
 
+Map::datatype &Map::getReference(Coordinate coord) {
+    return map.at(coord.x).at(coord.y);
+}
+
+std::vector<Coordinate> Map::get_neighbours(const Map::Iterator &it) {
+    std::vector<Coordinate> out;
+    for(int x = -1; x<2;x++){
+        for(int y = -1; y<2; y++){
+            if(x == 0 && y == 0) continue;
+            out.emplace_back(it.getCoordinate().x + x, it.getCoordinate().y + y);
+        }
+    }
+    return out;
+}
 
 
+Map::Iterator &Map::Iterator::operator++() {
+    coord.y++;
+    if(coord.y == map.scale){
+        coord.x++;
+        coord.y = 0;
+    }
+    return *this;
+}
 
-
+Map::Iterator Map::Iterator::operator++(int) {
+    auto temp(*this);
+    ++(*this);
+    return temp;
+}
