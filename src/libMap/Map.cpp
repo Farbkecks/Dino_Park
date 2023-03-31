@@ -166,11 +166,9 @@ void Map::moveAll() {
 }
 
 void Map::moveReset() {
-    for(auto const & row: map){
-        for(auto const & cell: row){
-            if(cell == nullptr) continue;
-            cell->hasMovedReset();
-        }
+    for(auto cell: *this){
+        if(cell == nullptr) continue;
+        cell->hasMovedReset();
     }
 }
 
