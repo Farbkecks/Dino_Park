@@ -13,9 +13,9 @@ Map::Map(const int scale, const int countCarnivore, const int countHerbivore)
     }
 
     int countFence = (int) (scale * scale * 0.1);
-    addTypeBulk(FENCE, countFence);
-    addTypeBulk(CARNIVORE, countCarnivore);
-    addTypeBulk(HERBIVORE, countHerbivore);
+    addTypeBulk<Fence>(countFence);
+    addTypeBulk<Carnivore>(countCarnivore);
+    addTypeBulk<Herbivore>(countHerbivore);
 }
 
 Map::datatype Map::getCoordninates(const int x, const int y) const {
@@ -29,31 +29,6 @@ Map::datatype Map::getCoordninates(const Coordinate & coord) const {
 void Map::setCoordninates(Coordinate const & coord, Map::datatype const & obj)
 {
     map.at(coord.x).at(coord.y) = std::move(obj);
-}
-
-void Map::addTypeBulk(const MapObjectType &type, const int count) {
-    for(int i = 0 ; i<count; i++){
-        int x,y;
-        do { // loop until an empty place is found
-            x = Map::random0To20();
-            y = Map::random0To20();
-        } while(getCoordninates(x,y) != nullptr);
-
-        setCoordninates(Coordinate(x,y), Map::makeTypeInstance(type, i));
-    }
-}
-
-Map::datatype Map::makeTypeInstance(const MapObjectType &type, const int id) {
-    using std::make_shared;
-    switch (type) {
-        case CARNIVORE:
-            return make_shared<Carnivore>();
-        case HERBIVORE:
-            return make_shared<Herbivore>();
-        case FENCE:
-            return std::make_shared<Fence>();
-        default: throw std::invalid_argument("cant add type");
-    }
 }
 
 int Map::random0To20(){

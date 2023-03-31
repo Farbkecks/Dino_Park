@@ -79,9 +79,8 @@ private:
 
     std::vector<Coordinate> getNeighbors(Coordinate const & center) const;
 
-    void addTypeBulk(const MapObjectType &type, int count);
-
-    static datatype makeTypeInstance(const MapObjectType &type, int id);
+    template<class T>
+    void addTypeBulk(int count);
 
     static int random0To20();
 
@@ -91,3 +90,16 @@ private:
 
 // streams out the map
 std::ostream &operator<<(std::ostream &strm, const Map &a);
+
+template<class T>
+void Map::addTypeBulk(const int count) {
+    for(int i = 0 ; i<count; i++){
+        int x,y;
+        do { // loop until an empty place is found
+            x = Map::random0To20();
+            y = Map::random0To20();
+        } while(getCoordninates(x,y) != nullptr);
+
+        setCoordninates(Coordinate(x,y), std::make_shared<T>());
+    }
+}
