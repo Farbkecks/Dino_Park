@@ -79,17 +79,11 @@ private:
 
     std::vector<Coordinate> getNeighbors(Coordinate const & center) const;
 
-    template<class T>
-    void walk(T walkFunc);
-
     void addTypeBulk(const MapObjectType &type, int count);
 
     static datatype makeTypeInstance(const MapObjectType &type, int id);
 
     static int random0To20();
-
-    void eat(Coordinate const & coord);
-    void move(Coordinate const & coord);
 
     void moveReset();
 
@@ -97,13 +91,3 @@ private:
 
 // streams out the map
 std::ostream &operator<<(std::ostream &strm, const Map &a);
-
-template<class T>
-void Map::walk(T walkFunc) {
-    for (int x = 0; x < scale; x++) {
-        for (int y = 0; y < scale; y++) {
-            if (getCoordninates(x,y) == nullptr) continue;
-            walkFunc(Coordinate(x,y));
-        }
-    }
-}

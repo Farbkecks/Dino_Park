@@ -112,51 +112,57 @@ unsigned int Map::countType(const MapObjectType & type) const {
 }
 
 void Map::eatAll() {
-    walk([&](Coordinate coord){eat(coord);});
-}
+    for(auto it = begin(); it!=end(); it++){
+        if(*it == nullptr) continue;
+        auto coord = it.getCoordinate();
+        if(getCoordninates(coord)->getType() != CARNIVORE) continue;
+        if(!Carnivore::attemptEat()) continue;
 
-void Map::eat(Coordinate const & coord) {
+        auto const neighbors = getNeighbors(coord);
+        std::vector<Coordinate> herbivoreNeighbors;
 
-    if(getCoordninates(coord) == nullptr) return;
-    if(getCoordninates(coord)->getType() != CARNIVORE) return;
-    if(!Carnivore::attemptEat()) return;
+        std::copy_if(std::begin(neighbors),
+                     std::end(neighbors),
+                     back_inserter(herbivoreNeighbors),
+                     [&](Coordinate const & coord){
+            if(getCoordninates(coord) == nullptr) return false;
+            if(getCoordninates(coord)->getType() != HERBIVORE) return false;
+            return true;
+        });
 
-    auto const neighbors = getNeighbors(coord);
-    std::vector<Coordinate> herbivoreNeighbors;
+        if(herbivoreNeighbors.empty()) continue;
 
-    std::copy_if(std::begin(neighbors), std::end(neighbors), back_inserter(herbivoreNeighbors), [&](Coordinate const & coord){
-        if(getCoordninates(coord) == nullptr) return false;
-        if(getCoordninates(coord)->getType() != HERBIVORE) return false;
-        return true;
-    });
-
-    if(herbivoreNeighbors.empty()) return;
-
-    auto targetCoord = herbivoreNeighbors.at(rand() % herbivoreNeighbors.size());
-    setCoordninates(targetCoord, nullptr);
+        auto targetCoord = herbivoreNeighbors.at(rand() % herbivoreNeighbors.size());
+        setCoordninates(targetCoord, nullptr);
+    }
 }
 
 void Map::moveAll() {
-    walk([&](Coordinate coord){move(coord);});
+    for(auto it = begin(); it!=end(); it++){
+        if(*it == nullptr) continue;
+        auto coord = it.getCoordinate();
+
+        if(!getCoordninates(coord)->canMove())
+            continue;
+
+        auto const neighbors = getNeighbors(coord);
+
+        std::vector<Coordinate> emptyNeighbors;
+
+        std::copy_if(
+                std::begin(neighbors),
+                std::end(neighbors),
+                back_inserter(emptyNeighbors),
+                [&](Coordinate const & coord){
+            return getCoordninates(coord) == nullptr;
+        });
+
+        auto targetCoord = emptyNeighbors.at(rand() % emptyNeighbors.size());
+        setCoordninates(targetCoord, getCoordninates(coord));
+        setCoordninates(coord, nullptr);
+    }
 
     moveReset();
-}
-
-void Map::move(Coordinate const & coord) {
-    if(!getCoordninates(coord)->canMove())
-        return;
-
-    auto const neighbors = getNeighbors(coord);
-
-    std::vector<Coordinate> emptyNeighbors;
-
-    std::copy_if(std::begin(neighbors), std::end(neighbors), back_inserter(emptyNeighbors), [&](Coordinate const & coord){
-        return getCoordninates(coord) == nullptr;
-    });
-
-    auto targetCoord = emptyNeighbors.at(rand() % emptyNeighbors.size());
-    setCoordninates(targetCoord, getCoordninates(coord));
-    setCoordninates(coord, nullptr);
 }
 
 void Map::moveReset() {
